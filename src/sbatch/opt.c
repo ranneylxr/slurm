@@ -899,6 +899,9 @@ static bool _opt_verify(void)
 	if (opt.ntasks_per_socket != NO_VAL)
 		het_job_env.ntasks_per_socket = opt.ntasks_per_socket;
 
+	if (opt.threads_per_core != NO_VAL)
+		het_job_env.threads_per_core = opt.threads_per_core;
+
 	if (hl)
 		hostlist_destroy(hl);
 
@@ -1284,6 +1287,7 @@ extern void init_envs(sbatch_env_t *local_env)
 	local_env->ntasks_per_node	= NO_VAL;
 	local_env->ntasks_per_socket	= NO_VAL;
 	local_env->plane_size		= NO_VAL;
+	local_env->threads_per_core	= NO_VAL16;
 }
 
 extern void set_envs(char ***array_ptr, sbatch_env_t *local_env,
@@ -1358,5 +1362,11 @@ extern void set_envs(char ***array_ptr, sbatch_env_t *local_env,
 					 het_job_offset, "%u",
 					 local_env->plane_size)) {
 		error("Can't set SLURM_DIST_PLANESIZE env variable");
+	}
+	if ((local_env->threads_per_core != NO_VAL16) &&
+	    !env_array_overwrite_het_fmt(array_ptr, "SLURM_THREADS_PER_CORE",
+					 het_job_offset, "%u",
+					 local_env->threads_per_core)) {
+		error("Can't set SLURM_THREADS_PER_CORE env variable");
 	}
 }
