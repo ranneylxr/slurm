@@ -1318,8 +1318,22 @@ int update_node ( update_node_msg_t * update_node_msg )
 				node_ptr->node_state &= (~NODE_STATE_DRAIN);
 				node_ptr->node_state &= (~NODE_STATE_FAIL);
 				node_ptr->node_state &= (~NODE_STATE_REBOOT);
-				node_ptr->node_state &=
-					(~NODE_STATE_POWERING_DOWN);
+				if (IS_NODE_POWERING_DOWN(node_ptr)) {
+					node_ptr->node_state &=
+						(~NODE_STATE_POWERING_DOWN);
+
+					xfree(node_ptr->node_hostname);
+					xfree(node_ptr->comm_name);
+					node_ptr->comm_name =
+						xstrdup(node_ptr->name);
+					node_ptr->node_hostname =
+						xstrdup(node_ptr->name);
+					slurm_reset_alias(
+						node_ptr->name,
+						node_ptr->comm_name,
+						node_ptr->node_hostname);
+				}
+
 				if (IS_NODE_DOWN(node_ptr)) {
 					state_val = NODE_STATE_IDLE;
 #ifndef HAVE_FRONT_END

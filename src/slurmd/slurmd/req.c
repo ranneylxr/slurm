@@ -614,6 +614,10 @@ _send_slurmstepd_init(int fd, int type, void *req,
 	/* Send GRES information to slurmstepd */
 	gres_plugin_send_stepd(fd, &msg);
 
+	len = strlen(conf->node_name);
+	safe_write(fd, &len, sizeof(int));
+	safe_write(fd, conf->node_name, len);
+
 	return 0;
 
 rwfail:

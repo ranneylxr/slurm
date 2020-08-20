@@ -143,6 +143,8 @@ typedef struct slurmd_config {
 	pthread_cond_t	prolog_running_cond;
 	char		*gres;		/* The node's slurm.conf GRES */
 	bool		print_gres;	/* Print gres info (-G) and exit */
+	bool		dynamic;
+	char		*dynamic_feature;
 } slurmd_conf_t;
 
 extern slurmd_conf_t * conf;

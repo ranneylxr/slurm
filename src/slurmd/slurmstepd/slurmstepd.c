@@ -651,6 +651,11 @@ _init_from_slurmd(int sock, char **argv,
 	 */
 	msg->protocol_version = proto;
 
+	/* Read slurmd node name */
+	safe_read(sock, &len, sizeof(int));
+	conf->node_name = xmalloc(len);
+	safe_read(sock, conf->node_name, len);
+
 	*_cli = cli;
 	*_self = self;
 	*_msg = msg;

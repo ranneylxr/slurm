@@ -411,6 +411,15 @@ static void _do_power_work(time_t now)
 
 			node_ptr->node_state &= (~NODE_STATE_POWERING_DOWN);
 
+			/*Reset node's hostname and addr back to node's name */
+			xfree(node_ptr->node_hostname);
+			xfree(node_ptr->comm_name);
+			node_ptr->comm_name = xstrdup(node_ptr->name);
+			node_ptr->node_hostname = xstrdup(node_ptr->name);
+			slurm_reset_alias(node_ptr->name,
+					  node_ptr->comm_name,
+					  node_ptr->node_hostname);
+
 			if (!IS_NODE_DOWN(node_ptr) &&
 			    !IS_NODE_DRAIN(node_ptr) &&
 			    !IS_NODE_FAIL(node_ptr))

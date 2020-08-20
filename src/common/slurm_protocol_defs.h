@@ -1242,9 +1242,12 @@ typedef struct slurm_node_registration_status_msg {
 	uint32_t tmp_disk;
 	uint32_t up_time;	/* seconds since reboot */
 	char *version;
+	bool dynamic;		/* dynamic registration */
+	char *dynamic_feature;	/* dynamic registration feature */
 } slurm_node_registration_status_msg_t;
 
 typedef struct slurm_node_reg_resp_msg {
+	char *node_name;
 	List tres_list;
 } slurm_node_reg_resp_msg_t;
 
