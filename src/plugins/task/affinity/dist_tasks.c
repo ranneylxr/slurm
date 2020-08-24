@@ -1033,6 +1033,7 @@ static int _task_layout_lllp_cyclic(launch_tasks_request_msg_t *req,
 			if ((req->ntasks_per_core != 0) &&
 			    (core_tasks[core_inx] >= req->ntasks_per_core))
 				continue;
+			/* ntasks_per_socket like _block ?*/
 			if ((req->threads_per_core != NO_VAL16) &&
 			    (core_threads[core_inx] >= req->threads_per_core))
 				continue;
