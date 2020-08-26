@@ -300,6 +300,7 @@ extern int launch_common_create_job_step(srun_job_t *job, bool use_all_cpus,
 	}
 	if (opt_local->overcommit)
 		job->ctx_params.flags |= SSF_OVERCOMMIT;
+	job->ctx_params.flags |= SSF_WHOLE;
 	job->ctx_params.node_list = opt_local->nodelist;
 	job->ctx_params.exc_nodes = opt_local->exclude;
 
